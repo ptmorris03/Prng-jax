@@ -8,7 +8,7 @@ from prng import Prng
 seed = 0
 prng = Prng(seed)
 
-weights = prng(256, 512)
+weights = prng(256, 512)                                 # jax.random.normal
 weights2 = prng(jax.random.normal, 3, 8, 4, 8)           # (*shape,)
 weights3 = prng(jax.random.normal, (3, 2, 4, 8))         # (shape,)
 inputs = prng(jax.random.randint, (10, 50), 0, 1024)     # (shape, low, high)
