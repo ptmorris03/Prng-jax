@@ -1,7 +1,4 @@
 import jax
-import jax.numpy as jnp
-
-from functools import partial
 
 
 class Prng:
@@ -65,8 +62,8 @@ class Prng:
 
 
 if __name__ == "__main__":
-    seed = 0
-    prng = Prng(seed)
+    SEED = 0
+    prng = Prng(SEED)
     weights = prng(256, 512)
     weights2 = prng(jax.random.normal, 3, 8, 4, 8)
     weights3 = prng(jax.random.normal, (3, 2, 4, 8))
