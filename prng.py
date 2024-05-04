@@ -1,5 +1,11 @@
 import jax
 
+from typing import Any
+
+
+def is_num(arg: Any) -> bool:
+    return isinstance(arg, (int, float))
+
 
 class Prng:
     """
@@ -50,15 +56,18 @@ class Prng:
 
         """
         f = self.default_fn
+
         if len(args) == 0:
-            shape = (1,)
+            args = (1,)
+
         elif callable(args[0]):
             f = args[0]
-            shape = args[1] if len(args) == 2 else args[1:] if len(args) > 1 else (1,)
-        else:
-            shape = args[0] if len(args) == 1 else args
+            args = args[1:]
 
-        return f(self.split(), shape)
+        if all(map(is_num, args)):
+            return f(self.split(), args)
+
+        return f(self.split(), *args)
 
 
 if __name__ == "__main__":
