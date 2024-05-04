@@ -47,6 +47,7 @@ class Prng:
     def __call__(self, *args):
         """
         Generates random numbers using the default function and the split key.
+        If the first argument is callable, it it used as the function instead.
 
         Args:
             *args: Variable-length argument list.
@@ -57,16 +58,20 @@ class Prng:
         """
         f = self.default_fn
 
+        # no arguments given
         if len(args) == 0:
             args = (1,)
 
-        elif callable(args[0]):
+        # first argument is a function
+        if callable(args[0]):
             f = args[0]
             args = args[1:]
 
+        # pack numeric arguments as one shape
         if all(map(is_num, args)):
             return f(self.split(), args)
 
+        # pass arguments directly
         return f(self.split(), *args)
 
 
