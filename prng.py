@@ -29,8 +29,11 @@ class Prng:
         self, seed: jax.typing.ArrayLike, default_fn=jax.random.normal
     ) -> None:
         self.default_fn = default_fn
+
+        # Initialize seed as a Jax PRNGKey Array
         if not isinstance(seed, jax.Array):
             seed = jax.random.PRNGKey(seed)
+            
         self.key = seed
 
     def split(self) -> jax.Array:
@@ -41,7 +44,9 @@ class Prng:
             jax.Array: The new PRNGKey.
 
         """
+        # update internal key and generate a new one
         self.key, new_key = jax.random.split(self.key)
+        
         return new_key
 
     def __call__(self, *args):
