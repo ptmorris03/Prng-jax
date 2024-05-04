@@ -49,7 +49,7 @@ class Prng:
         
         return new_key
 
-    def __call__(self, *args):
+    def __call__(self, *args) -> jax.Array:
         """
         Generates random numbers using the default function and the split key.
         If the first argument is callable, it it used as the function instead.
