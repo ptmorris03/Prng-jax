@@ -13,10 +13,10 @@ class Prng:
 
     Args:
         seed (jax.typing.ArrayLike): The seed value for the random number generator.
-        default_fn (callable, optional): The default random number generation function. Defaults to jax.random.normal.
+        f (callable, optional): The default random number generation function. Defaults to jax.random.normal.
 
     Attributes:
-        default_fn (callable): The default random number generation function.
+        f (callable): The random number generation function.
         key (jax.Array): The PRNGKey used for generating random numbers.
 
     Methods:
@@ -26,9 +26,9 @@ class Prng:
     """
 
     def __init__(
-        self, seed: jax.typing.ArrayLike, default_fn=jax.random.normal
+        self, seed: jax.typing.ArrayLike, f=jax.random.normal
     ) -> None:
-        self.default_fn = default_fn
+        self.f = f
 
         # Initialize seed as a Jax PRNGKey Array
         if not isinstance(seed, jax.Array):
@@ -61,7 +61,7 @@ class Prng:
             jax.Array: The generated random numbers.
 
         """
-        f = self.default_fn
+        f = self.f
 
         # no arguments given
         if len(args) == 0:
@@ -70,7 +70,7 @@ class Prng:
         # first argument is a function
         if callable(args[0]):
             f = args[0]
-            args = args[1:]
+            args = args[1:] if len(args) > 1 else ()
 
         # pack numeric arguments as one shape
         if all(map(is_num, args)):
