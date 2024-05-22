@@ -1,10 +1,7 @@
 import jax
 
+from numbers import Number
 from typing import Any
-
-
-def is_num(arg: Any) -> bool:
-    return isinstance(arg, (int, float))
 
 
 class Prng:
@@ -49,6 +46,22 @@ class Prng:
         
         return new_key
 
+    def _is_num(self, x: Any) -> bool:
+        """
+        Checks if the argument is a numeric type.
+      
+        This function uses the `numbers.Number` class to check for a wide range
+        of numeric types, including integers, floats, and complex numbers.
+      
+        Args:
+            self: Reference to the Prng class instance. (Usually omitted in docstrings)
+            x: The argument to check for numeric type.
+      
+        Returns:
+            bool: True if the argument is a numeric type, False otherwise.
+        """
+        return isinstance(x, Number)
+
     def __call__(self, *args) -> jax.Array:
         """
         Generates random numbers using the default function and the split key.
@@ -73,7 +86,7 @@ class Prng:
             args = args[1:] if len(args) > 1 else ()
 
         # pack numeric arguments as one shape
-        if all(map(is_num, args)):
+        if all(map(self._is_num, args)):
             return f(self.split(), args)
 
         # pass arguments directly
