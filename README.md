@@ -1,9 +1,9 @@
-# Prng-jax
+# jaxprng
 Pseudo-RNG convenience wrapper for quick experimentation in Jax. Initialize random tensors from a seed without thinking about psuedorandom state.
 
 # Usage
 ```python3
-from prng import Prng
+from jaxprng import Prng
 
 seed = 0
 prng = Prng(seed)
