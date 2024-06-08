@@ -1,0 +1,7 @@
+[project]
+name = "jaxprng"
+version = "0.1.0"  # Change this to your desired version
+description = "pseudo-random number generator class for JAX"
+
+[dependencies]
+jax = "^0.4.0"
